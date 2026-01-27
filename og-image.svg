@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#F8F6F3"/>
+
+  <!-- Subtle grain texture overlay -->
+  <filter id="grain">
+    <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="3"/>
+    <feColorMatrix type="saturate" values="0"/>
+  </filter>
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.03"/>
+
+  <!-- Decorative vertical lines -->
+  <line x1="100" y1="100" x2="100" y2="530" stroke="#E8E4DE" stroke-width="1"/>
+  <line x1="1100" y1="100" x2="1100" y2="530" stroke="#E8E4DE" stroke-width="1"/>
+
+  <!-- Circle symbol -->
+  <circle cx="600" cy="200" r="40" fill="none" stroke="#1A1A1A" stroke-width="1.5" opacity="0.3"/>
+
+  <!-- Main title -->
+  <text x="600" y="330" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="72" font-weight="300" fill="#1A1A1A" letter-spacing="2">
+    BrowserRouter
+  </text>
+
+  <!-- Tagline -->
+  <text x="600" y="400" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="36" font-weight="300" font-style="italic" fill="#1A1A1A" letter-spacing="1">
+    Links follow <tspan font-style="italic">your focus</tspan>
+  </text>
+
+  <!-- Subtitle -->
+  <text x="600" y="480" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="300" fill="#6B6B6B" letter-spacing="1">
+    A macOS menu bar utility
+  </text>
+
+  <!-- Accent dot -->
+  <circle cx="600" cy="540" r="4" fill="#C4A77D"/>
+
+  <!-- Corner marks -->
+  <path d="M120 120 L120 140 M120 120 L140 120" stroke="#A8A8A8" stroke-width="1" fill="none"/>
+  <path d="M1080 120 L1080 140 M1080 120 L1060 120" stroke="#A8A8A8" stroke-width="1" fill="none"/>
+  <path d="M120 510 L120 490 M120 510 L140 510" stroke="#A8A8A8" stroke-width="1" fill="none"/>
+  <path d="M1080 510 L1080 490 M1080 510 L1060 510" stroke="#A8A8A8" stroke-width="1" fill="none"/>
+</svg>

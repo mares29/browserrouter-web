@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrowserRouter – Links open in your last-used browser</title>
+    <meta name="description" content="A macOS menu bar app that opens links in whichever browser you were last using. No dialogs, no choosing—just the right browser.">
+    <link rel="canonical" href="https://browserrouter.app/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="BrowserRouter – Links open in your last-used browser">
+    <meta property="og:description" content="A macOS menu bar app that opens links in whichever browser you were last using. No dialogs, no choosing—just the right browser.">
+    <meta property="og:url" content="https://browserrouter.app/">
+    <meta property="og:image" content="https://browserrouter.app/og-image.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="BrowserRouter – Links open in your last-used browser">
+    <meta name="twitter:description" content="A macOS menu bar app that opens links in whichever browser you were last using.">
+    <meta name="twitter:image" content="https://browserrouter.app/og-image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --white: #FDFCFB;
+            --cream: #F8F6F3;
+            --stone: #E8E4DE;
+            --ink: #1A1A1A;
+            --ink-light: #6B6B6B;
+            --ink-faint: #A8A8A8;
+            --accent: #C4A77D;
+            --code-bg: #1A1A1A;
+            --code-text: #F8F6F3;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #141414;
+                --cream: #1C1C1C;
+                --stone: #2A2A2A;
+                --ink: #E8E4DE;
+                --ink-light: #A8A8A8;
+                --ink-faint: #6B6B6B;
+                --accent: #D4B896;
+                --code-bg: #0A0A0A;
+                --code-text: #E8E4DE;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: 300;
+            background: var(--white);
+            color: var(--ink);
+            line-height: 1.8;
+            letter-spacing: 0.02em;
+        }
+
+        ::selection {
+            background: var(--accent);
+            color: var(--white);
+        }
+
+        /* Subtle grain texture */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .nav-link {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--ink);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            width: 1px;
+            height: 80px;
+            background: var(--ink-faint);
+            animation: extend 2s ease-out infinite;
+        }
+
+        @keyframes extend {
+            0% { transform: scaleY(0); opacity: 0; }
+            50% { transform: scaleY(1); opacity: 1; }
+            100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
+        }
+
+        .hero-symbol {
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            opacity: 0.3;
+            animation: fade-in 1.5s ease-out;
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 300;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.5rem;
+            animation: fade-in 1.5s ease-out 0.2s both;
+        }
+
+        h1 em {
+            font-style: italic;
+        }
+
+        .hero-text {
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            max-width: 400px;
+            margin-bottom: 3rem;
+            animation: fade-in 1.5s ease-out 0.4s both;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 2rem;
+            animation: fade-in 1.5s ease-out 0.6s both;
+        }
+
+        .link-minimal {
+            font-size: 0.8rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink);
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 1px solid var(--ink-faint);
+            transition: border-color 0.3s;
+        }
+
+        .link-minimal:hover {
+            border-color: var(--ink);
+        }
+
+        /* Section styling */
+        section {
+            padding: 8rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.9rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+        }
+
+        /* Principle section */
+        .principle {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .principle-text {
+            font-size: 0.95rem;
+            color: var(--ink-light);
+            line-height: 2;
+        }
+
+        .principle-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .browser-line {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--stone);
+            opacity: 0.4;
+            transition: opacity 0.5s;
+        }
+
+        .browser-line.active {
+            opacity: 1;
+        }
+
+        .browser-line .icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .browser-line .name {
+            flex: 1;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+        }
+
+        .browser-line .status {
+            font-size: 0.7rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .browser-line.active .status {
+            color: var(--accent);
+        }
+
+        /* Features */
+        .features-list {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .feature-item {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .feature-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--ink-faint);
+            text-align: right;
+        }
+
+        .feature-content h3 {
+            font-weight: 400;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .feature-content p {
+            font-size: 0.9rem;
+            color: var(--ink-light);
+        }
+
+        /* Process */
+        .process {
+            background: var(--cream);
+            padding: 8rem 2rem;
+            margin: 0 -100vw;
+            padding-left: calc(50vw - 450px + 2rem);
+            padding-right: calc(50vw - 450px + 2rem);
+        }
+
+        .process-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .process-step {
+            flex: 1;
+            text-align: center;
+        }
+
+        .process-step .num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--ink-faint);
+            line-height: 1;
+            margin-bottom: 1.5rem;
+        }
+
+        .process-step h4 {
+            font-weight: 400;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .process-step p {
+            font-size: 0.85rem;
+            color: var(--ink-light);
+        }
+
+        .process-line {
+            width: 60px;
+            height: 1px;
+            background: var(--stone);
+            margin-top: 2.5rem;
+        }
+
+        /* Installation */
+        .install-section {
+            text-align: center;
+        }
+
+        .code-block {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 3rem;
+            margin-top: 3rem;
+            text-align: left;
+            font-family: 'SF Mono', 'Monaco', monospace;
+            font-size: 0.85rem;
+            line-height: 2.2;
+            overflow-x: auto;
+        }
+
+        .code-block .comment {
+            color: var(--ink-faint);
+        }
+
+        .code-block .prompt {
+            color: var(--accent);
+        }
+
+        /* Footer */
+        footer {
+            padding: 6rem 2rem;
+            text-align: center;
+            border-top: 1px solid var(--stone);
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-links a {
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--ink);
+        }
+
+        .footer-copy {
+            font-size: 0.75rem;
+            color: var(--ink-faint);
+            letter-spacing: 0.1em;
+        }
+
+        /* Vertical text decoration */
+        .vertical-text {
+            position: fixed;
+            writing-mode: vertical-rl;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            color: var(--ink-faint);
+            text-transform: uppercase;
+        }
+
+        .vertical-left {
+            left: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .vertical-right {
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 800px) {
+            nav {
+                padding: 1.5rem;
+            }
+
+            .principle {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .process-step {
+                max-width: 300px;
+            }
+
+            .process-line {
+                width: 1px;
+                height: 40px;
+            }
+
+            .vertical-text {
+                display: none;
+            }
+
+            .feature-item {
+                grid-template-columns: 40px 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebSite",
+                "@id": "https://browserrouter.app/#website",
+                "url": "https://browserrouter.app/",
+                "name": "BrowserRouter",
+                "description": "Links open in your last-used browser",
+                "publisher": {
+                    "@id": "https://browserrouter.app/#person"
+                }
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://browserrouter.app/#webpage",
+                "url": "https://browserrouter.app/",
+                "name": "BrowserRouter – Links open in your last-used browser",
+                "isPartOf": {
+                    "@id": "https://browserrouter.app/#website"
+                },
+                "about": {
+                    "@id": "https://browserrouter.app/#software"
+                },
+                "description": "A macOS menu bar app that opens links in whichever browser you were last using. No dialogs, no choosing—just the right browser."
+            },
+            {
+                "@type": "SoftwareApplication",
+                "@id": "https://browserrouter.app/#software",
+                "name": "BrowserRouter",
+                "operatingSystem": "macOS 13+",
+                "applicationCategory": "UtilitiesApplication",
+                "applicationSubCategory": "Browser Utility",
+                "offers": {
+                    "@type": "Offer",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                    "availability": "https://schema.org/InStock"
+                },
+                "description": "A macOS menu bar app that opens links in whichever browser you were last using.",
+                "downloadUrl": "https://github.com/mares29/browserrouter",
+                "installUrl": "https://github.com/mares29/browserrouter",
+                "softwareVersion": "1.0",
+                "fileSize": "2MB",
+                "memoryRequirements": "10MB RAM",
+                "author": {
+                    "@id": "https://browserrouter.app/#person"
+                },
+                "license": "https://opensource.org/licenses/MIT",
+                "isAccessibleForFree": true,
+                "keywords": "browser, macos, menu bar, link router, default browser, swift"
+            },
+            {
+                "@type": "Person",
+                "@id": "https://browserrouter.app/#person",
+                "name": "mares29",
+                "url": "https://github.com/mares29"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <span class="vertical-text vertical-left">ブラウザルーター</span>
+    <span class="vertical-text vertical-right">Open Source • MIT</span>
+
+    <nav>
+        <a href="#" class="logo">BrowserRouter</a>
+        <a href="https://github.com/mares29/browserrouter" class="nav-link" rel="noopener">GitHub</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-symbol">◯</div>
+        <h1>Links follow <em>your focus</em></h1>
+        <p class="hero-text">
+            Click a link in Slack. It opens in the browser you're already using—not your system default.
+        </p>
+        <div class="hero-actions">
+            <a href="#install" class="link-minimal">Install</a>
+            <a href="https://github.com/mares29/browserrouter" class="link-minimal" rel="noopener">Source</a>
+        </div>
+    </section>
+
+    <section class="principle reveal">
+        <div class="principle-text">
+            <p class="section-number">01</p>
+            <h2>The problem with defaults</h2>
+            <p>
+                You use Chrome for work, Safari for personal browsing. A link in Slack? Opens in Safari. A link in Notes? Safari again. macOS only knows one default—it ignores context.
+            </p>
+            <br>
+            <p>
+                BrowserRouter watches which browser you last used. Click a link anywhere, and it opens there. No dialogs. No choosing. Just the right browser, every time.
+            </p>
+        </div>
+        <div class="principle-visual">
+            <div class="browser-line">
+                <span class="icon">○</span>
+                <span class="name">Chrome</span>
+                <span class="status">—</span>
+            </div>
+            <div class="browser-line">
+                <span class="icon">○</span>
+                <span class="name">Safari</span>
+                <span class="status">—</span>
+            </div>
+            <div class="browser-line active">
+                <span class="icon">●</span>
+                <span class="name">Arc</span>
+                <span class="status">Active</span>
+            </div>
+            <div class="browser-line">
+                <span class="icon">○</span>
+                <span class="name">Firefox</span>
+                <span class="status">—</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <p class="section-number">02</p>
+        <h2>How it works</h2>
+        <div class="features-list">
+            <div class="feature-item">
+                <span class="feature-num">一</span>
+                <div class="feature-content">
+                    <h3>Zero friction</h3>
+                    <p>No popups asking "which browser?" Just click links like normal.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="feature-num">二</span>
+                <div class="feature-content">
+                    <h3>Smart fallback</h3>
+                    <p>Browser closed? Opens in the next most recent one. All browsers closed? Uses your configured default.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="feature-num">三</span>
+                <div class="feature-content">
+                    <h3>Your rules</h3>
+                    <p>Choose which browsers to track. Exclude the ones you don't want routing to.</p>
+                </div>
+            </div>
+            <div class="feature-item">
+                <span class="feature-num">四</span>
+                <div class="feature-content">
+                    <h3>2MB, native Swift</h3>
+                    <p>No Electron. No background processes. Uses ~10MB RAM.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="process">
+        <div class="process-inner reveal">
+            <p class="section-number">03</p>
+            <h2>Setup takes 2 minutes</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="num">1</div>
+                    <h4>Build & install</h4>
+                    <p>Clone the repo, run the build script.</p>
+                    <div class="process-line"></div>
+                </div>
+                <div class="process-step">
+                    <div class="num">2</div>
+                    <h4>Set as default</h4>
+                    <p>Make BrowserRouter your default browser in System Settings.</p>
+                    <div class="process-line"></div>
+                </div>
+                <div class="process-step">
+                    <div class="num">3</div>
+                    <h4>Forget about it</h4>
+                    <p>Links now open in whichever browser you're using.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="install-section reveal" id="install">
+        <p class="section-number">04</p>
+        <h2>Get started</h2>
+        <p style="color: var(--ink-light); font-size: 0.9rem;">macOS 13+ required</p>
+        <div class="code-block">
+<span class="comment"># Clone</span>
+<span class="prompt">$</span> git clone https://github.com/mares29/browserrouter.git
+
+<span class="comment"># Build</span>
+<span class="prompt">$</span> cd browserrouter
+<span class="prompt">$</span> ./scripts/bundle.sh
+
+<span class="comment"># Set as default browser in System Settings</span>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-logo">BrowserRouter</div>
+        <div class="footer-links">
+            <a href="https://github.com/mares29/browserrouter" rel="noopener">GitHub</a>
+            <a href="https://github.com/mares29/browserrouter/issues" rel="noopener">Issues</a>
+            <a href="https://github.com/mares29" rel="noopener">@mares29</a>
+        </div>
+        <p class="footer-copy">Open Source • MIT License</p>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Rotate active browser
+        const lines = document.querySelectorAll('.browser-line');
+        let activeIdx = 2;
+
+        setInterval(() => {
+            lines.forEach(l => {
+                l.classList.remove('active');
+                l.querySelector('.icon').textContent = '○';
+                l.querySelector('.status').textContent = '—';
+            });
+            activeIdx = (activeIdx + 1) % lines.length;
+            lines[activeIdx].classList.add('active');
+            lines[activeIdx].querySelector('.icon').textContent = '●';
+            lines[activeIdx].querySelector('.status').textContent = 'Active';
+        }, 3000);
+    </script>
+</body>
+</html>
