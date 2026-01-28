@@ -1,0 +1,158 @@
+<section class="principle reveal">
+  <div class="principle-text">
+    <p class="section-number">01</p>
+    <h2>The problem with defaults</h2>
+    <p>
+      You use Chrome for work, Safari for personal browsing. A link in Slack? Opens in Safari. A link in Notes? Safari again. macOS only knows one default—it ignores context.
+    </p>
+    <br>
+    <p>
+      BrowserRouter watches which browser you last used. Click a link anywhere, and it opens there. No dialogs. No choosing. Just the right browser, every time.
+    </p>
+  </div>
+  <div class="principle-visual">
+    <div class="browser-line">
+      <span class="icon">○</span>
+      <span class="name">Chrome</span>
+      <span class="status">—</span>
+    </div>
+    <div class="browser-line">
+      <span class="icon">○</span>
+      <span class="name">Safari</span>
+      <span class="status">—</span>
+    </div>
+    <div class="browser-line active">
+      <span class="icon">●</span>
+      <span class="name">Arc</span>
+      <span class="status">Active</span>
+    </div>
+    <div class="browser-line">
+      <span class="icon">○</span>
+      <span class="name">Firefox</span>
+      <span class="status">—</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Rotate active browser
+  const lines = document.querySelectorAll('.browser-line');
+  let activeIdx = 2;
+
+  setInterval(() => {
+    lines.forEach(l => {
+      l.classList.remove('active');
+      const icon = l.querySelector('.icon');
+      const status = l.querySelector('.status');
+      if (icon) icon.textContent = '○';
+      if (status) status.textContent = '—';
+    });
+    activeIdx = (activeIdx + 1) % lines.length;
+    lines[activeIdx].classList.add('active');
+    const activeIcon = lines[activeIdx].querySelector('.icon');
+    const activeStatus = lines[activeIdx].querySelector('.status');
+    if (activeIcon) activeIcon.textContent = '●';
+    if (activeStatus) activeStatus.textContent = 'Active';
+  }, 3000);
+</script>
+
+<style>
+  .principle {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .principle-text {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 2;
+  }
+
+  .principle-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .browser-line {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--stone);
+    opacity: 0.4;
+    transition: opacity 0.5s;
+  }
+
+  .browser-line.active {
+    opacity: 1;
+  }
+
+  .browser-line .icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .browser-line .name {
+    flex: 1;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+  }
+
+  .browser-line .status {
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .browser-line.active .status {
+    color: var(--accent);
+  }
+
+  @media (max-width: 800px) {
+    .principle {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .principle {
+      padding: 5rem 1.25rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .principle-text p {
+      font-size: 0.9rem;
+    }
+  }
+</style>

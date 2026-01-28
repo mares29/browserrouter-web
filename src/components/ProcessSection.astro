@@ -1,0 +1,139 @@
+<div class="process">
+  <div class="process-inner reveal">
+    <p class="section-number">03</p>
+    <h2>Setup takes 2 minutes</h2>
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="num">1</div>
+        <h4>Build & install</h4>
+        <p>Clone the repo, run the build script.</p>
+        <div class="process-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="num">2</div>
+        <h4>Set as default</h4>
+        <p>Make BrowserRouter your default browser in System Settings.</p>
+        <div class="process-line"></div>
+      </div>
+      <div class="process-step">
+        <div class="num">3</div>
+        <h4>Forget about it</h4>
+        <p>Links now open in whichever browser you're using.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .process {
+    background: var(--cream);
+    padding: 8rem 2rem;
+    margin: 0 -100vw;
+    padding-left: calc(50vw - 450px + 2rem);
+    padding-right: calc(50vw - 450px + 2rem);
+  }
+
+  .process-inner {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .process-steps {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .process-step {
+    flex: 1;
+    text-align: center;
+  }
+
+  .process-step .num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--ink-faint);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .process-step h4 {
+    font-weight: 400;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+  }
+
+  .process-step p {
+    font-size: 0.85rem;
+    color: var(--ink-light);
+  }
+
+  .process-line {
+    width: 60px;
+    height: 1px;
+    background: var(--stone);
+    margin: 2.5rem auto 0;
+  }
+
+  @media (max-width: 800px) {
+    .process {
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .process-steps {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .process-step {
+      max-width: 300px;
+    }
+
+    .process-line {
+      width: 1px;
+      height: 40px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .process {
+      padding: 5rem 1.25rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .process-step .num {
+      font-size: 2.5rem;
+    }
+
+    .process-step h4 {
+      font-size: 0.85rem;
+    }
+
+    .process-step p {
+      font-size: 0.8rem;
+    }
+  }
+</style>

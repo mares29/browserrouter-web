@@ -1,0 +1,123 @@
+<section class="features reveal">
+  <p class="section-number">02</p>
+  <h2>How it works</h2>
+  <div class="features-list">
+    <div class="feature-item">
+      <span class="feature-num">一</span>
+      <div class="feature-content">
+        <h3>Zero friction</h3>
+        <p>No popups asking "which browser?" Just click links like normal.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">二</span>
+      <div class="feature-content">
+        <h3>Smart fallback</h3>
+        <p>Browser closed? Opens in the next most recent one. All browsers closed? Uses your configured default.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">三</span>
+      <div class="feature-content">
+        <h3>Your rules</h3>
+        <p>Choose which browsers to track. Exclude the ones you don't want routing to.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <span class="feature-num">四</span>
+      <div class="feature-content">
+        <h3>2MB, native Swift</h3>
+        <p>No Electron. No background processes. Uses ~10MB RAM.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .features-list {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .feature-item {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .feature-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    color: var(--ink-faint);
+    text-align: right;
+  }
+
+  .feature-content h3 {
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  .feature-content p {
+    font-size: 0.9rem;
+    color: var(--ink-light);
+  }
+
+  @media (max-width: 800px) {
+    .feature-item {
+      grid-template-columns: 40px 1fr;
+      gap: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .features {
+      padding: 5rem 1.25rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .feature-item {
+      grid-template-columns: 32px 1fr;
+      gap: 0.75rem;
+    }
+
+    .feature-num {
+      font-size: 1.5rem;
+    }
+
+    .feature-content h3 {
+      font-size: 0.95rem;
+    }
+
+    .feature-content p {
+      font-size: 0.85rem;
+    }
+  }
+</style>

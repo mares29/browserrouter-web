@@ -1,0 +1,94 @@
+<section class="install-section reveal" id="install">
+  <p class="section-number">04</p>
+  <h2>Get started</h2>
+  <p class="requirement">macOS 13+ required</p>
+  <div class="code-block">
+    <span class="comment"># Clone</span>
+    <br>
+    <span class="prompt">$</span> git clone https://github.com/mares29/browserrouter.git
+    <br><br>
+    <span class="comment"># Build</span>
+    <br>
+    <span class="prompt">$</span> cd browserrouter
+    <br>
+    <span class="prompt">$</span> ./scripts/bundle.sh
+    <br><br>
+    <span class="comment"># Set as default browser in System Settings</span>
+  </div>
+</section>
+
+<style>
+  .install-section {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  .requirement {
+    color: var(--ink-light);
+    font-size: 0.9rem;
+  }
+
+  .code-block {
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 3rem;
+    margin-top: 3rem;
+    text-align: left;
+    font-family: 'SF Mono', 'Monaco', monospace;
+    font-size: 0.85rem;
+    line-height: 2.2;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .code-block .comment {
+    color: var(--ink-faint);
+  }
+
+  .code-block .prompt {
+    color: var(--accent);
+  }
+
+  @media (max-width: 480px) {
+    .install-section {
+      padding: 5rem 1.25rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+
+    .code-block {
+      padding: 1.5rem 1rem;
+      font-size: 0.75rem;
+      line-height: 2;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .code-block {
+      font-size: 0.7rem;
+      padding: 1.25rem 0.75rem;
+    }
+  }
+</style>
