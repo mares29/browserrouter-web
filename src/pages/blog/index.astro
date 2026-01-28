@@ -14,18 +14,25 @@ const posts = (await getCollection('blog')).sort(
 
   <main class="blog-index">
     <header class="blog-header">
+      <p class="section-label">Journal</p>
       <h1>Blog</h1>
-      <p>Thoughts on browsers, productivity, and building for macOS.</p>
+      <p class="tagline">Thoughts on browsers, productivity, and building for macOS.</p>
+      <div class="header-rule"></div>
     </header>
 
     <ul class="posts-list">
-      {posts.map((post) => (
-        <li>
+      {posts.map((post, index) => (
+        <li style={`animation-delay: ${index * 0.1}s`}>
           <a href={`/blog/${post.slug}/`}>
-            <time datetime={post.data.date.toISOString()}>
-              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-            </time>
+            <div class="post-meta">
+              <span class="post-number">{String(posts.length - index).padStart(2, '0')}</span>
+              <time datetime={post.data.date.toISOString()}>
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </div>
             <h2>{post.data.title}</h2>
+            <p class="post-description">{post.data.description}</p>
+            <span class="read-link">Read article <span class="arrow">→</span></span>
           </a>
         </li>
       ))}
@@ -41,45 +48,127 @@ const posts = (await getCollection('blog')).sort(
 
 <style>
   .blog-index {
-    max-width: 680px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 8rem 2rem 4rem;
-    min-height: 60vh;
+    padding: 10rem 2rem 6rem;
+    min-height: 70vh;
   }
 
+  /* Header */
   .blog-header {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
+    animation: fadeIn 0.8s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1rem;
   }
 
   .blog-header h1 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 2.5rem;
+    font-size: clamp(3rem, 8vw, 4.5rem);
     font-weight: 300;
-    letter-spacing: 0.02em;
-    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    line-height: 1;
   }
 
-  .blog-header p {
+  .tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
     color: var(--ink-light);
-    font-size: 0.95rem;
+    margin-bottom: 2rem;
   }
 
+  .header-rule {
+    width: 60px;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.6;
+  }
+
+  /* Posts List */
   .posts-list {
     list-style: none;
   }
 
   .posts-list li {
     border-bottom: 1px solid var(--stone);
+    animation: slideIn 0.6s ease-out both;
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .posts-list li:first-child {
+    border-top: 1px solid var(--stone);
   }
 
   .posts-list a {
     display: block;
-    padding: 2rem 0;
+    padding: 2.5rem 0;
     text-decoration: none;
-    transition: opacity 0.3s;
+    transition: all 0.4s ease;
+    position: relative;
+  }
+
+  .posts-list a::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    transform: scaleY(0);
+    transition: transform 0.4s ease;
+  }
+
+  .posts-list a:hover::before {
+    transform: scaleY(1);
   }
 
   .posts-list a:hover {
+    padding-left: 1rem;
+  }
+
+  /* Post Meta */
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--accent);
+    font-style: italic;
     opacity: 0.7;
   }
 
@@ -87,20 +176,91 @@ const posts = (await getCollection('blog')).sort(
     font-size: 0.8rem;
     color: var(--ink-faint);
     letter-spacing: 0.05em;
-    display: block;
-    margin-bottom: 0.5rem;
   }
 
+  /* Post Title */
   .posts-list h2 {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 400;
     color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+    transition: color 0.3s;
   }
 
-  .no-posts {
+  .posts-list a:hover h2 {
+    color: var(--accent);
+  }
+
+  /* Post Description */
+  .post-description {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  /* Read Link */
+  .read-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--ink-faint);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s, gap 0.3s;
+  }
+
+  .posts-list a:hover .read-link {
+    color: var(--ink);
+    gap: 0.75rem;
+  }
+
+  .read-link .arrow {
+    transition: transform 0.3s;
+  }
+
+  .posts-list a:hover .read-link .arrow {
+    transform: translateX(3px);
+  }
+
+  /* Empty State */
+  .no-posts {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
     font-style: italic;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 4rem 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 680px) {
+    .blog-index {
+      padding: 8rem 1.5rem 4rem;
+    }
+
+    .blog-header h1 {
+      font-size: 3rem;
+    }
+
+    .posts-list a {
+      padding: 2rem 0;
+    }
+
+    .posts-list a:hover {
+      padding-left: 0.5rem;
+    }
+
+    .posts-list a::before {
+      left: -1.5rem;
+    }
+
+    .posts-list h2 {
+      font-size: 1.35rem;
+    }
   }
 
   @media (max-width: 480px) {
@@ -108,8 +268,42 @@ const posts = (await getCollection('blog')).sort(
       padding: 6rem 1.25rem 3rem;
     }
 
+    .blog-header {
+      margin-bottom: 3rem;
+    }
+
     .blog-header h1 {
-      font-size: 2rem;
+      font-size: 2.5rem;
+    }
+
+    .tagline {
+      font-size: 1rem;
+    }
+
+    .post-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+
+    .post-number {
+      display: none;
+    }
+
+    .posts-list h2 {
+      font-size: 1.2rem;
+    }
+
+    .post-description {
+      font-size: 0.9rem;
+    }
+
+    .posts-list a::before {
+      display: none;
+    }
+
+    .posts-list a:hover {
+      padding-left: 0;
     }
   }
 </style>
