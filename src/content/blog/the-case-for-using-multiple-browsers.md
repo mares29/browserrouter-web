@@ -1,6 +1,6 @@
 ---
 title: "The Case for Using Multiple Browsers in 2026"
-date: 2026-01-21
+date: 2026-01-14
 description: "I have four browsers installed. Not because I can't make up my mind — because each one does a different job."
 ---
 

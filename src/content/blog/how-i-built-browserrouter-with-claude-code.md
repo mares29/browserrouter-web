@@ -1,6 +1,6 @@
 ---
 title: "How I Built BrowserRouter with Claude Code in One Weekend"
-date: 2026-01-14
+date: 2026-01-21
 description: "I don't know Swift. I'd never built a macOS menu bar app. But I had Claude Code — and that changed everything."
 ---
 

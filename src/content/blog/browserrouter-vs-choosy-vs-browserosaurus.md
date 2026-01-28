@@ -1,6 +1,6 @@
 ---
 title: "BrowserRouter vs. Choosy vs. Browserosaurus: Which Link Router Should You Use?"
-date: 2026-01-07
+date: 2026-01-28
 description: "Three solid options for fixing macOS link routing. They work completely differently — here's how to pick."
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: "Why Your Default Browser Setting is Broken (And How to Fix It)"
-date: 2026-01-28
+date: 2026-01-07
 description: "macOS has a setting for your default browser. Here's what it doesn't do — and how to make links actually follow your context."
 ---
 
