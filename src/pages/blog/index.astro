@@ -1,0 +1,115 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+---
+
+<BaseLayout title="Blog – BrowserRouter" description="Thoughts on browsers, productivity, and building for macOS.">
+  <Header />
+
+  <main class="blog-index">
+    <header class="blog-header">
+      <h1>Blog</h1>
+      <p>Thoughts on browsers, productivity, and building for macOS.</p>
+    </header>
+
+    <ul class="posts-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}/`}>
+            <time datetime={post.data.date.toISOString()}>
+              {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+            </time>
+            <h2>{post.data.title}</h2>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    {posts.length === 0 && (
+      <p class="no-posts">No posts yet. Check back soon.</p>
+    )}
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .blog-index {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 8rem 2rem 4rem;
+    min-height: 60vh;
+  }
+
+  .blog-header {
+    margin-bottom: 4rem;
+  }
+
+  .blog-header h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  .blog-header p {
+    color: var(--ink-light);
+    font-size: 0.95rem;
+  }
+
+  .posts-list {
+    list-style: none;
+  }
+
+  .posts-list li {
+    border-bottom: 1px solid var(--stone);
+  }
+
+  .posts-list a {
+    display: block;
+    padding: 2rem 0;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .posts-list a:hover {
+    opacity: 0.7;
+  }
+
+  .posts-list time {
+    font-size: 0.8rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .posts-list h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .no-posts {
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  @media (max-width: 480px) {
+    .blog-index {
+      padding: 6rem 1.25rem 3rem;
+    }
+
+    .blog-header h1 {
+      font-size: 2rem;
+    }
+  }
+</style>
