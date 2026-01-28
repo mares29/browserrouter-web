@@ -1,0 +1,50 @@
+---
+interface Props {
+  number: string;
+  title: string;
+  class?: string;
+  id?: string;
+}
+
+const { number, title, class: className = '', id } = Astro.props;
+---
+
+<section class:list={['section', className, 'reveal']} id={id}>
+  <p class="section-number">{number}</p>
+  <h2>{title}</h2>
+  <slot />
+</section>
+
+<style>
+  .section {
+    padding: 8rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .section-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 300;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    .section {
+      padding: 5rem 1.25rem;
+    }
+
+    h2 {
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+    }
+  }
+</style>
