@@ -1,0 +1,138 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  date: Date;
+  description: string;
+}
+
+const { title, date, description } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<BaseLayout title={`${title} – BrowserRouter`} description={description}>
+  <Header />
+
+  <article class="blog-post">
+    <header class="post-header">
+      <a href="/blog" class="back-link">← Blog</a>
+      <h1>{title}</h1>
+      <time datetime={date.toISOString()}>{formattedDate}</time>
+    </header>
+
+    <div class="post-content">
+      <slot />
+    </div>
+  </article>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .blog-post {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 8rem 2rem 4rem;
+  }
+
+  .post-header {
+    margin-bottom: 4rem;
+  }
+
+  .back-link {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 2rem;
+    transition: color 0.3s;
+  }
+
+  .back-link:hover {
+    color: var(--ink);
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  time {
+    font-size: 0.85rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+
+  .post-content {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--ink-light);
+  }
+
+  .post-content :global(h2) {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 3rem 0 1.5rem;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 2rem 0 1rem;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+
+  .post-content :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .post-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 480px) {
+    .blog-post {
+      padding: 6rem 1.25rem 3rem;
+    }
+
+    .post-content {
+      font-size: 1rem;
+    }
+  }
+</style>
