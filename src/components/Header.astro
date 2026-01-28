@@ -1,0 +1,119 @@
+---
+interface Props {
+  showBlogLink?: boolean;
+}
+
+const { showBlogLink = true } = Astro.props;
+---
+
+<nav>
+  <a href="/" class="logo">BrowserRouter</a>
+  <div class="nav-links">
+    {showBlogLink && <a href="/blog" class="nav-link">Blog</a>}
+    <a href="https://github.com/mares29/browserrouter" class="nav-link" rel="noopener">GitHub</a>
+  </div>
+</nav>
+
+<span class="vertical-text vertical-left">ブラウザルーター</span>
+<span class="vertical-text vertical-right">Open Source • MIT</span>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .nav-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    transition: color 0.3s;
+  }
+
+  .nav-link:hover {
+    color: var(--ink);
+  }
+
+  .vertical-text {
+    position: fixed;
+    writing-mode: vertical-rl;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  .vertical-left {
+    left: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .vertical-right {
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+  }
+
+  @media (max-width: 800px) {
+    nav {
+      padding: 1.5rem;
+    }
+
+    .vertical-text {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    nav {
+      padding: 1rem;
+    }
+
+    .logo {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+    }
+
+    .nav-link {
+      font-size: 0.7rem;
+      padding: 0.5rem 0.75rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    nav {
+      padding: 0.75rem;
+    }
+
+    .logo {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+    }
+  }
+</style>
