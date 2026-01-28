@@ -16,9 +16,63 @@ const formattedDate = date.toLocaleDateString('en-US', {
   month: 'long',
   day: 'numeric'
 });
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Schema markup for blog posts
+const articleSchema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "description": description,
+  "datePublished": date.toISOString(),
+  "dateModified": date.toISOString(),
+  "author": {
+    "@type": "Person",
+    "@id": "https://browserrouter.app/#person",
+    "name": "mares29",
+    "url": "https://github.com/mares29"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BrowserRouter",
+    "url": "https://browserrouter.app"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": canonicalURL.href
+  }
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://browserrouter.app/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://browserrouter.app/blog/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": title,
+      "item": canonicalURL.href
+    }
+  ]
+};
 ---
 
 <BaseLayout title={`${title} – BrowserRouter`} description={description}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
   <Header />
 
   <article class="blog-post">
