@@ -398,6 +398,7 @@
             font-size: 0.85rem;
             line-height: 2.2;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         .code-block .comment {
@@ -471,7 +472,7 @@
             transform: translateY(-50%) rotate(180deg);
         }
 
-        /* Responsive */
+        /* Responsive - Tablet */
         @media (max-width: 800px) {
             nav {
                 padding: 1.5rem;
@@ -480,6 +481,11 @@
             .principle {
                 grid-template-columns: 1fr;
                 gap: 3rem;
+            }
+
+            .process {
+                padding-left: 2rem;
+                padding-right: 2rem;
             }
 
             .process-steps {
@@ -502,6 +508,161 @@
 
             .feature-item {
                 grid-template-columns: 40px 1fr;
+                gap: 1rem;
+            }
+
+            .footer-links {
+                gap: 2rem;
+            }
+        }
+
+        /* Responsive - Mobile */
+        @media (max-width: 480px) {
+            nav {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 0.95rem;
+                letter-spacing: 0.15em;
+            }
+
+            .nav-link {
+                font-size: 0.7rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            section {
+                padding: 5rem 1.25rem;
+            }
+
+            .hero {
+                padding: 3rem 1.25rem;
+            }
+
+            .hero-symbol {
+                font-size: 2.5rem;
+                margin-bottom: 2rem;
+            }
+
+            h1 {
+                font-size: clamp(1.8rem, 8vw, 2.5rem);
+            }
+
+            .hero-text {
+                font-size: 0.9rem;
+                padding: 0 0.5rem;
+            }
+
+            .hero-actions {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1.25rem;
+            }
+
+            .hero::after {
+                bottom: 2rem;
+                height: 50px;
+            }
+
+            h2 {
+                font-size: 1.6rem;
+                margin-bottom: 2rem;
+            }
+
+            .principle-text p {
+                font-size: 0.9rem;
+            }
+
+            .feature-item {
+                grid-template-columns: 32px 1fr;
+                gap: 0.75rem;
+            }
+
+            .feature-num {
+                font-size: 1.5rem;
+            }
+
+            .feature-content h3 {
+                font-size: 0.95rem;
+            }
+
+            .feature-content p {
+                font-size: 0.85rem;
+            }
+
+            .process {
+                padding: 5rem 1.25rem;
+            }
+
+            .process-step .num {
+                font-size: 2.5rem;
+            }
+
+            .process-step h4 {
+                font-size: 0.85rem;
+            }
+
+            .process-step p {
+                font-size: 0.8rem;
+            }
+
+            .code-block {
+                padding: 1.5rem 1rem;
+                font-size: 0.75rem;
+                line-height: 2;
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+
+            footer {
+                padding: 4rem 1.25rem;
+            }
+
+            .footer-logo {
+                font-size: 1.25rem;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                gap: 1.25rem 2rem;
+            }
+
+            .footer-copy {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Responsive - Small Mobile */
+        @media (max-width: 360px) {
+            nav {
+                padding: 0.75rem;
+            }
+
+            .logo {
+                font-size: 0.85rem;
+                letter-spacing: 0.1em;
+            }
+
+            h1 {
+                font-size: 1.6rem;
+            }
+
+            .hero-actions {
+                gap: 1rem;
+            }
+
+            .link-minimal {
+                font-size: 0.75rem;
+            }
+
+            .code-block {
+                font-size: 0.7rem;
+                padding: 1.25rem 0.75rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
                 gap: 1rem;
             }
         }
