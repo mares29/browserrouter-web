@@ -1,0 +1,146 @@
+<section class="hero">
+  <div class="hero-symbol">◯</div>
+  <h1>Links follow <em>your focus</em></h1>
+  <p class="hero-text">
+    Click a link in Slack. It opens in the browser you're already using—not your system default.
+  </p>
+  <div class="hero-actions">
+    <a href="#install" class="link-minimal">Install</a>
+    <a href="https://github.com/mares29/browserrouter" class="link-minimal" rel="noopener">Source</a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    width: 1px;
+    height: 80px;
+    background: var(--ink-faint);
+    animation: extend 2s ease-out infinite;
+  }
+
+  @keyframes extend {
+    0% { transform: scaleY(0); opacity: 0; }
+    50% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1); opacity: 0; transform-origin: bottom; }
+  }
+
+  .hero-symbol {
+    font-size: 3rem;
+    margin-bottom: 3rem;
+    opacity: 0.3;
+    animation: fade-in 1.5s ease-out;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+    animation: fade-in 1.5s ease-out 0.2s both;
+  }
+
+  h1 em {
+    font-style: italic;
+  }
+
+  .hero-text {
+    font-size: 0.95rem;
+    color: var(--ink-light);
+    max-width: 400px;
+    margin-bottom: 3rem;
+    animation: fade-in 1.5s ease-out 0.4s both;
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 2rem;
+    animation: fade-in 1.5s ease-out 0.6s both;
+  }
+
+  .link-minimal {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--ink-faint);
+    transition: border-color 0.3s;
+  }
+
+  .link-minimal:hover {
+    border-color: var(--ink);
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding: 3rem 1.25rem;
+    }
+
+    .hero-symbol {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 8vw, 2.5rem);
+    }
+
+    .hero-text {
+      font-size: 0.9rem;
+      padding: 0 0.5rem;
+    }
+
+    .hero-actions {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+
+    .hero::after {
+      bottom: 2rem;
+      height: 50px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    .hero-actions {
+      gap: 1rem;
+    }
+
+    .link-minimal {
+      font-size: 0.75rem;
+    }
+  }
+</style>
