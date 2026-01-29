@@ -2,18 +2,25 @@
   <p class="section-number">04</p>
   <h2>Get started</h2>
   <p class="requirement">macOS 13+ required</p>
-  <div class="code-block">
-    <span class="comment"># Clone</span>
-    <br>
-    <span class="prompt">$</span> git clone https://github.com/mares29/browserrouter.git
-    <br><br>
-    <span class="comment"># Build</span>
-    <br>
-    <span class="prompt">$</span> cd browserrouter
-    <br>
-    <span class="prompt">$</span> ./scripts/bundle.sh
-    <br><br>
-    <span class="comment"># Set as default browser in System Settings</span>
+  <div class="steps">
+    <div class="step">
+      <span class="step-number">1</span>
+      <div class="step-content">
+        <a href="https://github.com/mares29/browserrouter/releases/latest/download/BrowserRouter-v1.0.2.dmg" class="download-link">Download BrowserRouter.dmg</a>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-number">2</span>
+      <div class="step-content">
+        <p>Drag to Applications</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-number">3</span>
+      <div class="step-content">
+        <p>Set as default browser in System Settings</p>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -45,24 +52,49 @@
     font-size: 0.9rem;
   }
 
-  .code-block {
-    background: var(--code-bg);
-    color: var(--code-text);
-    padding: 3rem;
+  .steps {
     margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .step {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
     text-align: left;
-    font-family: 'SF Mono', 'Monaco', monospace;
-    font-size: 0.85rem;
-    line-height: 2.2;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
   }
 
-  .code-block .comment {
+  .step-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
     color: var(--ink-faint);
+    flex-shrink: 0;
+    width: 2rem;
+    text-align: center;
   }
 
-  .code-block .prompt {
+  .step-content {
+    font-size: 1rem;
+    color: var(--ink);
+  }
+
+  .step-content p {
+    margin: 0;
+  }
+
+  .download-link {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    transition: color 0.2s ease;
+  }
+
+  .download-link:hover {
     color: var(--accent);
   }
 
@@ -76,19 +108,17 @@
       margin-bottom: 2rem;
     }
 
-    .code-block {
-      padding: 1.5rem 1rem;
-      font-size: 0.75rem;
-      line-height: 2;
-      word-break: break-word;
-      overflow-wrap: break-word;
+    .steps {
+      margin-top: 2rem;
+      gap: 1.25rem;
     }
-  }
 
-  @media (max-width: 360px) {
-    .code-block {
-      font-size: 0.7rem;
-      padding: 1.25rem 0.75rem;
+    .step {
+      gap: 1rem;
+    }
+
+    .step-content {
+      font-size: 0.9rem;
     }
   }
 </style>
