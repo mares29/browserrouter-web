@@ -15,8 +15,22 @@
         <p>Drag to Applications</p>
       </div>
     </div>
-    <div class="step">
+    <div class="step step-with-note">
       <span class="step-number">3</span>
+      <div class="step-content">
+        <p>Run in Terminal: <code>xattr -cr /Applications/BrowserRouter.app</code></p>
+        <details class="why-note">
+          <summary>Why is this needed?</summary>
+          <div class="note-content">
+            <p>macOS protects you by blocking apps downloaded from the internet that aren't signed by Apple. This is called Gatekeeper.</p>
+            <p>BrowserRouter isn't notarized yet, so this command removes the quarantine flag—telling macOS you trust this app.</p>
+            <p class="note-aside">This is a common step for open-source Mac apps.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-number">4</span>
       <div class="step-content">
         <p>Set as default browser in System Settings</p>
       </div>
@@ -64,7 +78,7 @@
 
   .step {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 1.5rem;
     text-align: left;
   }
@@ -76,6 +90,7 @@
     flex-shrink: 0;
     width: 2rem;
     text-align: center;
+    padding-top: 0.1em;
   }
 
   .step-content {
@@ -96,6 +111,87 @@
 
   .download-link:hover {
     color: var(--accent);
+  }
+
+  .step-content code {
+    font-family: 'SF Mono', 'Monaco', monospace;
+    font-size: 0.85em;
+    background: var(--code-bg);
+    color: var(--code-text);
+    padding: 0.2em 0.5em;
+    border-radius: 3px;
+    word-break: break-all;
+  }
+
+  /* Expandable "Why?" Note */
+  .why-note {
+    margin-top: 0.75rem;
+  }
+
+  .why-note summary {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--ink-faint);
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.2s ease;
+  }
+
+  .why-note summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .why-note summary::before {
+    content: '→ ';
+    opacity: 0.5;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    display: inline-block;
+  }
+
+  .why-note[open] summary::before {
+    transform: rotate(90deg);
+    opacity: 0.8;
+  }
+
+  .why-note summary:hover {
+    color: var(--ink-light);
+  }
+
+  .note-content {
+    margin-top: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--cream);
+    border-left: 2px solid var(--accent);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--ink-light);
+    animation: noteReveal 0.3s ease-out;
+  }
+
+  @keyframes noteReveal {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .note-content p {
+    margin-bottom: 0.75rem;
+  }
+
+  .note-content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .note-aside {
+    font-style: italic;
+    color: var(--ink-faint);
+    font-size: 0.8rem;
   }
 
   @media (max-width: 480px) {
@@ -119,6 +215,19 @@
 
     .step-content {
       font-size: 0.9rem;
+    }
+
+    .step-content code {
+      font-size: 0.75em;
+    }
+
+    .note-content {
+      padding: 1rem 1.25rem;
+      font-size: 0.8rem;
+    }
+
+    .note-aside {
+      font-size: 0.75rem;
     }
   }
 </style>
