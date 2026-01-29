@@ -18,7 +18,7 @@ All three apps solve the same problem (links opening in the wrong browser), but 
 
 **Choosy** says: "Tell me your rules, and I'll follow them forever."
 **Browserosaurus** says: "I'll ask you every time. You decide."
-**BrowserRouter** says: "I'll watch what you're doing and guess."
+**BrowserRouter** says: "I'll open links in whichever browser you used last."
 
 Which approach fits you depends on how you think about browser routing.
 
@@ -114,7 +114,7 @@ No rules. No popups. Just context-aware routing.
 
 *You frequently switch contexts mid-task.* If you're in Safari but click a link you want in Chrome, BrowserRouter sends it to Safari. You'd need to switch browsers first, or copy-paste.
 
-*You want manual control.* BrowserRouter guesses. It's right most of the time, but it doesn't ask.
+*You want manual control.* BrowserRouter follows a simple rule—it doesn't ask which browser you want.
 
 **Verdict:** BrowserRouter is for people who want zero friction. If "open links where I'm working" describes your need, it handles this automatically.
 
